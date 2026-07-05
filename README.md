@@ -27,6 +27,17 @@ git push -u origin main
 
 Then vercel.com → Add New Project → import `luma-site` → deploy (zero config, defaults work).
 
+## Dossier app setup (Supabase, EU)
+
+The core product (dossier planner + encrypted vault) lives at `/{locale}/app` and needs a Supabase project:
+
+1. Create a project at database.new — **region: EU (Frankfurt)**.
+2. In the SQL editor, run `supabase/schema.sql` (tables, row-level security, private storage bucket).
+3. In Authentication → URL Configuration, set the site URL to your production domain and add `https://YOUR-DOMAIN/en/app` and `/es/app` as redirect URLs.
+4. Copy Settings → API → Project URL + anon key into Vercel env vars (see `.env.example`), then redeploy.
+
+Without the env vars the marketing site works normally and `/app` shows a setup notice.
+
 ## Before real launch
 
 - Wire the waitlist form (`components/Waitlist.tsx`, marked TODO) to Resend/Loops or a serverless function — deliberately no third-party scripts included.
