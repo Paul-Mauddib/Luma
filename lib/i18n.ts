@@ -38,7 +38,7 @@ const en = {
       },
       {
         title: "2 · Get your exact checklist",
-        body: "Every document for your consulate or province, with validity windows planned backwards from your submission date — so your criminal record certificate doesn’t expire while you wait for an apostille. Every checklist is maintained under colegiado supervision.",
+        body: "Every document for your consulate or province, with validity windows planned backwards from your submission date — so nothing expires while something else is still in the post. Every checklist is maintained under colegiado supervision.",
       },
       {
         title: "3 · Upload, we validate",
@@ -139,7 +139,7 @@ const en = {
   },
   privacy: {
     kicker: "Privacy is the product",
-    title: "Passports. Criminal records. Medical certificates. We built the infrastructure they deserve.",
+    title: "Your documents deserve better than someone’s inbox.",
     sub: "Most immigration help means emailing your passport to a stranger's inbox. Luma is engineered so the most sensitive documents you own are held as little as possible, as briefly as possible — on infrastructure you can verify.",
     points: [
       {
@@ -178,6 +178,14 @@ const en = {
       {
         q: "What happens to my documents?",
         a: "They live in an encrypted vault only you control, are processed only on EU infrastructure, and are automatically deleted after your case closes. Read our privacy commitments above — they’re architectural, not just policy.",
+      },
+      {
+        q: "What is a colegiado professional?",
+        a: "In Spain, gestores administrativos and abogados (lawyers) are regulated professions. A colegiado is a licensed member of their official professional college — the colegio — which verifies their qualifications, binds them to a code of conduct, and requires professional indemnity insurance. Only colegiado professionals can legally represent you before the Spanish administration, which is why they're the only people who may sign and file an application on your behalf.",
+      },
+      {
+        q: "How exactly is Luma supervised?",
+        a: "A colegiado gestor administrativo reviews and signs off every eligibility rule, checklist and template in Luma before it reaches you — and re-reviews them whenever the regulations change. Each sign-off is versioned and documented, not a one-time rubber stamp. If you choose 'Filed for you', an independent colegiado additionally reviews your specific dossier and files it under their own licence and insurance.",
       },
       {
         q: "Do you guarantee approval?",
@@ -296,7 +304,7 @@ const es: typeof en = {
       },
       {
         title: "2 · Recibe tu checklist exacta",
-        body: "Cada documento para tu consulado o provincia, con ventanas de validez planificadas hacia atrás desde la fecha de presentación — para que tus antecedentes penales no caduquen mientras esperas la apostilla. Cada checklist se mantiene bajo supervisión colegiada.",
+        body: "Cada documento para tu consulado o provincia, con ventanas de validez planificadas hacia atrás desde la fecha de presentación — para que nada caduque mientras otra cosa sigue en camino. Cada checklist se mantiene bajo supervisión colegiada.",
       },
       {
         title: "3 · Sube, nosotros validamos",
@@ -397,7 +405,7 @@ const es: typeof en = {
   },
   privacy: {
     kicker: "La privacidad es el producto",
-    title: "Pasaportes. Antecedentes penales. Certificados médicos. Construimos la infraestructura que merecen.",
+    title: "Tus documentos merecen algo mejor que la bandeja de entrada de un desconocido.",
     sub: "La mayoría de la ayuda migratoria consiste en enviar tu pasaporte al correo de un desconocido. Luma está diseñada para que los documentos más sensibles que tienes se guarden lo mínimo posible, el menor tiempo posible — en infraestructura verificable.",
     points: [
       {
@@ -436,6 +444,14 @@ const es: typeof en = {
       {
         q: "¿Qué pasa con mis documentos?",
         a: "Viven en una caja fuerte cifrada que solo tú controlas, se procesan únicamente en infraestructura europea y se eliminan automáticamente al cerrar tu caso. Nuestros compromisos de privacidad son de arquitectura, no solo de política.",
+      },
+      {
+        q: "¿Qué es un profesional colegiado?",
+        a: "En España, los gestores administrativos y los abogados son profesiones reguladas. Un colegiado es un miembro con licencia de su colegio profesional oficial, que verifica su cualificación, le obliga a un código deontológico y le exige un seguro de responsabilidad civil. Solo los profesionales colegiados pueden representarte legalmente ante la administración — por eso son los únicos que pueden firmar y presentar una solicitud en tu nombre.",
+      },
+      {
+        q: "¿Cómo se supervisa Luma exactamente?",
+        a: "Un gestor administrativo colegiado revisa y valida cada regla de elegibilidad, checklist y plantilla de Luma antes de que llegue a ti — y las vuelve a revisar cada vez que cambia la normativa. Cada validación queda versionada y documentada; no es un sello de una sola vez. Si eliges 'Presentado por ti', un colegiado independiente revisa además tu expediente concreto y lo presenta bajo su propia licencia y seguro.",
       },
       {
         q: "¿Garantizáis la aprobación?",

@@ -146,8 +146,18 @@ export default function Landing({ params }: { params: { locale: string } }) {
           <div className="mt-12 grid gap-5 sm:grid-cols-2">
             {d.privacy.points.map((p, i) => (
               <div key={p.title} className="rounded-2xl border border-night-line bg-night-card p-7">
-                <p className="font-display text-sm font-semibold text-terra-mid">0{i + 1}</p>
-                <h3 className="mt-2 font-display text-xl font-semibold text-white">{p.title}</h3>
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-terra/15 text-terra-mid">
+                  {i === 0 ? (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-6 w-6" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M3.6 9h16.8M3.6 15h16.8M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" /></svg>
+                  ) : i === 1 ? (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-6 w-6" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /><circle cx="12" cy="15.5" r="1.3" fill="currentColor" stroke="none" /></svg>
+                  ) : i === 2 ? (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-6 w-6" aria-hidden="true"><path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12s-3.5 6.5-9.5 6.5S2.5 12 2.5 12z" /><circle cx="12" cy="12" r="2.8" /></svg>
+                  ) : (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-6 w-6" aria-hidden="true"><path d="M4 7h16M10 7V5h4v2M6.5 7l1 13h9l1-13" /><path d="M10 11v5M14 11v5" /></svg>
+                  )}
+                </span>
+                <h3 className="mt-4 font-display text-xl font-semibold text-white">{p.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-white/60">{p.body}</p>
               </div>
             ))}
