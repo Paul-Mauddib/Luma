@@ -98,6 +98,10 @@ export function TriageWizard({
         </div>
         <h2 className="font-display text-2xl font-bold">{d.results_title}</h2>
         <p className="mt-2 text-sm text-ink-soft">{d.results_sub}</p>
+        <p className="mt-3 inline-flex items-center gap-2 rounded-full bg-terra-soft px-3.5 py-1.5 text-xs font-medium text-terra-dark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3.5 w-3.5 shrink-0" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg>
+          {d.supervisedNote}
+        </p>
 
         {a.ibero && results.length > 0 && (
           <p className="mt-6 rounded-2xl bg-sea-soft p-5 text-sm font-medium leading-relaxed text-sea">

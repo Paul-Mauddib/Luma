@@ -118,6 +118,19 @@ export default function Landing({ params }: { params: { locale: string } }) {
               </div>
             ))}
           </div>
+          <div className="mt-8 rounded-2xl border border-terra/25 bg-terra-soft/40 p-6">
+            <p className="text-xs font-semibold uppercase tracking-wide text-terra-dark">
+              {d.pricing.included.title}
+            </p>
+            <ul className="mt-3 grid gap-x-8 gap-y-2 sm:grid-cols-2">
+              {d.pricing.included.items.map((item) => (
+                <li key={item} className="flex gap-2 text-sm text-ink-soft">
+                  <span className="mt-0.5 text-terra">✓</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
           <p className="mt-6 text-xs text-ink-mute">{d.pricing.note}</p>
         </div>
       </section>
