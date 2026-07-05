@@ -11,36 +11,46 @@ export default function Landing({ params }: { params: { locale: string } }) {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-60"
-          style={{
-            background:
-              "radial-gradient(60rem 30rem at 80% -10%, #fbe9e1 0%, transparent 60%), radial-gradient(50rem 25rem at 0% 110%, #e2f2ef 0%, transparent 55%)",
-          }}
-        />
-        <div className="wrap relative py-20 sm:py-28">
-          <p className="chip bg-terra-soft text-terra-dark">{d.hero.eyebrow}</p>
-          <h1 className="mt-5 max-w-3xl font-display text-4xl font-bold leading-tight tracking-tight sm:text-6xl">
+      <section className="relative">
+        <div className="wrap flex flex-col items-center py-20 text-center sm:py-24">
+          <p className="chip gap-1.5 bg-terra-soft text-terra-dark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3.5 w-3.5" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg>
+            {d.hero.eyebrow}
+          </p>
+          <h1 className="mt-6 max-w-2xl font-display text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">
             {d.hero.title}
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-soft">{d.hero.sub}</p>
-          <div className="mt-9 flex flex-wrap gap-4">
-            <Link href={`/${locale}/triage`} className="btn-primary">
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-mute">{d.hero.sub}</p>
+          <div className="mt-9 flex flex-col items-center">
+            <Link href={`/${locale}/triage`} className="btn-primary !px-8 !py-3.5">
               {d.hero.ctaPrimary}
             </Link>
-            <a href="#how" className="btn-secondary">
-              {d.hero.ctaSecondary}
-            </a>
+            <p className="mt-3 text-xs text-ink-faint">{d.hero.ctaFine}</p>
           </div>
-          <dl className="mt-16 grid max-w-3xl grid-cols-1 gap-6 sm:grid-cols-3">
-            {d.hero.stats.map((s) => (
-              <div key={s.label} className="rounded-2xl border border-ink/10 bg-white/70 p-5">
-                <dt className="font-display text-3xl font-bold text-terra">{s.value}</dt>
-                <dd className="mt-1 text-sm text-ink-mute">{s.label}</dd>
+
+          <div className="mt-14 w-full max-w-xl rounded-2xl border border-ink/10 bg-white p-6 text-left">
+            <p className="text-xs text-ink-faint">{d.hero.journey.label}</p>
+            <div className="mt-3 flex items-end gap-1.5">
+              <div className="flex-1">
+                <div className="h-1.5 rounded-l-full bg-terra" />
+                <p className="mt-2 text-[11px] font-semibold text-terra-dark">{d.hero.journey.stages[0]}</p>
               </div>
-            ))}
-          </dl>
+              <div className="flex-[1.2]">
+                <div className="h-1.5 bg-terra-mid" />
+                <p className="mt-2 text-[11px] text-ink-mute">{d.hero.journey.stages[1]}</p>
+              </div>
+              <div className="flex-1">
+                <div className="h-1.5 rounded-r-full bg-terra-faint" />
+                <p className="mt-2 text-[11px] text-ink-mute">{d.hero.journey.stages[2]}</p>
+              </div>
+            </div>
+            <p className="mt-4 border-t border-ink/10 pt-3 text-xs text-ink-soft">
+              {d.hero.journey.speedBefore}{" "}
+              <span className="text-ink-faint line-through">{d.hero.journey.speedOld}</span>
+              {" → "}
+              <span className="font-semibold text-sea">{d.hero.journey.speedNew}</span>
+            </p>
+          </div>
         </div>
       </section>
 
@@ -113,15 +123,19 @@ export default function Landing({ params }: { params: { locale: string } }) {
       </section>
 
       {/* Privacy */}
-      <section id="privacy" className="scroll-mt-20 bg-ink py-20 text-white">
+      <section id="privacy" className="scroll-mt-20 bg-night py-24 text-white">
         <div className="wrap">
-          <h2 className="max-w-3xl font-display text-3xl font-bold sm:text-4xl">{d.privacy.title}</h2>
-          <p className="mt-4 max-w-2xl leading-relaxed text-white/70">{d.privacy.sub}</p>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2">
-            {d.privacy.points.map((p) => (
-              <div key={p.title} className="rounded-2xl border border-white/15 bg-white/5 p-6">
-                <h3 className="font-display text-lg font-bold text-white">{p.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/70">{p.body}</p>
+          <p className="chip bg-terra text-white">{d.privacy.kicker}</p>
+          <h2 className="mt-6 max-w-3xl font-display text-3xl font-semibold leading-tight sm:text-5xl">
+            {d.privacy.title}
+          </h2>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/60">{d.privacy.sub}</p>
+          <div className="mt-12 grid gap-5 sm:grid-cols-2">
+            {d.privacy.points.map((p, i) => (
+              <div key={p.title} className="rounded-2xl border border-night-line bg-night-card p-7">
+                <p className="font-display text-sm font-semibold text-terra-mid">0{i + 1}</p>
+                <h3 className="mt-2 font-display text-xl font-semibold text-white">{p.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/60">{p.body}</p>
               </div>
             ))}
           </div>
