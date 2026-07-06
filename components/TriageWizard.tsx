@@ -14,6 +14,7 @@ import {
   type WorkAnswer,
 } from "@/lib/triage";
 import { supportedDossierPathways } from "@/lib/checklists";
+import { saveIntake } from "@/lib/intake";
 
 type Step = 0 | 1 | 2 | 3 | 4; // 4 = results
 
@@ -158,6 +159,7 @@ export function TriageWizard({
               {r.fit !== "not_yet" && supportedDossierPathways.includes(r.id) ? (
                 <Link
                   href={`/${locale}/app/login`}
+                  onClick={() => saveIntake(r.id, a)}
                   className="btn-primary mt-5 !px-5 !py-2 text-xs"
                 >
                   {d.startDossier} →

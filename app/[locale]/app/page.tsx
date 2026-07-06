@@ -7,11 +7,14 @@ import type { Session } from "@supabase/supabase-js";
 import { getSupabase, DOCUMENTS_BUCKET } from "@/lib/supabaseClient";
 import { appStrings, type AppStrings } from "@/lib/appStrings";
 import { checklists, getChecklist, CHECKLIST_VERSION, type Requirement } from "@/lib/checklists";
+import { loadIntake, clearIntake } from "@/lib/intake";
+import type { Answers } from "@/lib/triage";
 import type { Locale } from "@/lib/i18n";
 
 interface CaseRow {
   id: string;
   pathway: string;
+  answers: Answers | null;
 }
 
 interface DocRow {
@@ -68,14 +71,36 @@ export default function DossierPage() {
     return () => sub.subscription.unsubscribe();
   }, [supabase, locale, router]);
 
+  const triedAutoCreate = useRef(false);
+
   const loadCase = useCallback(async () => {
     if (!supabase || !session) return;
     const { data: cases } = await supabase
       .from("cases")
-      .select("id, pathway")
+      .select("id, pathway, answers")
       .order("created_at", { ascending: false })
       .limit(1);
-    const c = cases?.[0] ?? null;
+    let c = cases?.[0] ?? null;
+    if (!c && !triedAutoCreate.current) {
+      triedAutoCreate.current = true;
+      const intake = loadIntake();
+      if (intake && checklists[intake.pathway]) {
+        const { data: created } = await supabase
+          .from("cases")
+          .insert({
+            user_id: session.user.id,
+            pathway: intake.pathway,
+            checklist_version: CHECKLIST_VERSION,
+            answers: intake.answers,
+          })
+          .select("id, pathway, answers")
+          .single();
+        if (created) {
+          c = created;
+          clearIntake();
+        }
+      }
+    }
     setCaseRow(c);
     if (c) {
       const [{ data: d }, { data: h }] = await Promise.all([
@@ -93,15 +118,18 @@ export default function DossierPage() {
 
   async function startCase(pathway: string) {
     if (!supabase || !session) return;
+    const intake = loadIntake();
+    const answers = intake?.pathway === pathway ? intake.answers : null;
     const { data, error } = await supabase
       .from("cases")
-      .insert({ user_id: session.user.id, pathway, checklist_version: CHECKLIST_VERSION })
-      .select("id, pathway")
+      .insert({ user_id: session.user.id, pathway, checklist_version: CHECKLIST_VERSION, answers })
+      .select("id, pathway, answers")
       .single();
     if (!error && data) {
       setCaseRow(data);
       setDocs([]);
       setHelps([]);
+      clearIntake();
     }
   }
 
@@ -150,29 +178,34 @@ export default function DossierPage() {
 
   const checklist = caseRow ? getChecklist(caseRow.pathway) : null;
 
+  const activeReqs = useMemo(() => {
+    if (!checklist) return [] as Requirement[];
+    const deps = caseRow?.answers?.dependents;
+    return checklist.requirements.filter((r) => !(r.perDependent && deps === 0));
+  }, [checklist, caseRow]);
+
   const statusOf = useCallback(
     (r: Requirement) => docs.find((d) => d.requirement_id === r.id)?.status ?? "missing",
     [docs]
   );
 
   const progress = useMemo(() => {
-    if (!checklist) return { done: 0, total: 0 };
-    const done = checklist.requirements.filter((r) => {
+    const done = activeReqs.filter((r) => {
       const st = statusOf(r);
       return st !== "missing" && st !== "needs_fix";
     }).length;
-    return { done, total: checklist.requirements.length };
-  }, [checklist, statusOf]);
+    return { done, total: activeReqs.length };
+  }, [activeReqs, statusOf]);
 
   const nextAction = useMemo(() => {
     if (!checklist) return null;
-    const open = checklist.requirements.filter((r) => statusOf(r) === "missing" || statusOf(r) === "needs_fix");
+    const open = activeReqs.filter((r) => statusOf(r) === "missing" || statusOf(r) === "needs_fix");
     if (open.length === 0) return null;
     const slow = open.filter(isLegalise);
     const plain = open.filter((r) => !isLegalise(r) && !r.validityDays);
     const late = open.filter((r) => !isLegalise(r) && r.validityDays);
     return slow[0] ?? plain[0] ?? late[0] ?? null;
-  }, [checklist, statusOf]);
+  }, [checklist, activeReqs, statusOf]);
 
   if (!supabase) {
     return (
@@ -268,8 +301,8 @@ export default function DossierPage() {
     );
   }
 
-  const gather = checklist?.requirements.filter((r) => !isLegalise(r)) ?? [];
-  const legalise = checklist?.requirements.filter(isLegalise) ?? [];
+  const gather = activeReqs.filter((r) => !isLegalise(r));
+  const legalise = activeReqs.filter(isLegalise);
   const countReady = (list: Requirement[]) =>
     list.filter((r) => {
       const st = statusOf(r);
@@ -327,6 +360,11 @@ export default function DossierPage() {
                   style={{ width: `${progress.total ? (progress.done / progress.total) * 100 : 0}%` }}
                 />
               </div>
+              {caseRow.answers ? (
+                <p className="mt-3 text-xs text-ink-faint">
+                  {s.personalised(caseRow.answers.dependents ?? 0, caseRow.answers.monthlyIncome ?? 0)}
+                </p>
+              ) : null}
             </div>
 
             <div className="mt-6 rounded-2xl bg-ink p-6 text-white">

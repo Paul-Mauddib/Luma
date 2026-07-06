@@ -44,6 +44,8 @@ const en = {
   arrangeHelpSub: "Sworn translation and apostille coordination — coming with the Plus plan. Register interest and you'll be first in line.",
   helpRequested: "Interest registered — we'll contact you when this launches",
   diyLabel: "I'll handle it myself",
+  personalised: (deps: number, income: number) =>
+    `Personalised from your eligibility answers — ${deps} accompanying family ${deps === 1 ? "member" : "members"}, €${income.toLocaleString("en-US")}/month declared`,
 };
 
 const es: typeof en = {
@@ -90,6 +92,8 @@ const es: typeof en = {
   arrangeHelpSub: "Coordinación de traducción jurada y apostilla — llega con el plan Plus. Registra tu interés y serás de los primeros.",
   helpRequested: "Interés registrado — te contactaremos cuando se lance",
   diyLabel: "Lo gestiono yo",
+  personalised: (deps: number, income: number) =>
+    `Personalizado con tus respuestas de elegibilidad — ${deps} ${deps === 1 ? "familiar acompañante" : "familiares acompañantes"}, ${income.toLocaleString("es-ES")} €/mes declarados`,
 };
 
 export const appStrings: Record<Locale, typeof en> = { en, es };
