@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import type { Session } from "@supabase/supabase-js";
-import { getSupabase } from "@/lib/supabaseClient";
+import { getSupabase, DOCUMENTS_BUCKET } from "@/lib/supabaseClient";
 import { appStrings } from "@/lib/appStrings";
 import { checklists, getChecklist, CHECKLIST_VERSION, type Requirement } from "@/lib/checklists";
 import type { Locale } from "@/lib/i18n";
@@ -100,7 +100,7 @@ export default function DossierPage() {
     if (!supabase || !session || !caseRow) return;
     setBusyReq(req.id);
     const path = `${session.user.id}/${caseRow.id}/${req.id}/${Date.now()}-${file.name}`;
-    const { error: upErr } = await supabase.storage.from("documents").upload(path, file);
+    const { error: upErr } = await supabase.storage.from(DOCUMENTS_BUCKET).upload(path, file);
     if (!upErr) {
       await supabase.from("documents").upsert(
         {
@@ -123,7 +123,7 @@ export default function DossierPage() {
     const row = docs.find((d) => d.requirement_id === req.id);
     if (!row) return;
     setBusyReq(req.id);
-    if (row.storage_path) await supabase.storage.from("documents").remove([row.storage_path]);
+    if (row.storage_path) await supabase.storage.from(DOCUMENTS_BUCKET).remove([row.storage_path]);
     await supabase.from("documents").update({ status: "missing", storage_path: null }).eq("id", row.id);
     await loadCase();
     setBusyReq(null);

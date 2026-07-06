@@ -5,26 +5,22 @@ The SQL editor can't create storage policies, so this part is clicks, not SQL. T
 ## 1. Create the bucket
 
 Storage → New bucket
-- Name: `documents`
+- Name: `Documents` — must exactly match `DOCUMENTS_BUCKET` in `lib/supabaseClient.ts` (bucket IDs are case-sensitive)
 - Public bucket: **OFF** (must stay private)
 
-## 2. Add three policies
+## 2. Add the access policy
 
-Storage → the `documents` bucket → Policies → New policy → **For full customization**.
+Storage → the `Documents` bucket → Policies → New policy → **For full customization**.
 
-Create each of these. All three target role `authenticated` and use the same definition, which restricts every user to a folder named after their own user ID:
+One policy covering all three operations is fine:
+- Policy name: `own folder access`
+- Allowed operations: SELECT + INSERT + DELETE (UPDATE not needed)
+- Target roles: `authenticated`
+- Policy definition — restricts every user to a folder named after their own user ID:
 
 ```
-(bucket_id = 'documents') AND ((storage.foldername(name))[1] = (auth.uid())::text)
+(bucket_id = 'Documents') AND ((storage.foldername(name))[1] = (auth.uid())::text)
 ```
-
-| Policy name       | Allowed operation |
-|-------------------|-------------------|
-| own folder read   | SELECT            |
-| own folder write  | INSERT            |
-| own folder delete | DELETE            |
-
-For INSERT the dialog shows a "WITH CHECK" box instead of "USING" — paste the same expression there.
 
 ## 3. Verify
 

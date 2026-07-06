@@ -2,6 +2,8 @@
 
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
+export const DOCUMENTS_BUCKET = "Documents";
+
 let client: SupabaseClient | null = null;
 
 export function getSupabase(): SupabaseClient | null {
