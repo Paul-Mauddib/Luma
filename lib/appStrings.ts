@@ -32,6 +32,18 @@ const en = {
   deleteDoc: "Remove",
   supervised: "Checklist v2026-07 · maintained under colegiado supervision",
   backHome: "Back to luma.legal",
+  nextStep: "Your next step",
+  nextStepWhySlow: "Start this now — apostilles and sworn translations have the longest lead times.",
+  nextStepWhyLate: "Leave this until closer to submission — it has a short validity window.",
+  nextStepDone: "Everything uploaded. We'll review and flag anything that needs a fix.",
+  stageGather: "Gather your documents",
+  stageLegalise: "Legalise & translate",
+  stageForms: "Forms & fees",
+  formsComing: "Auto-filled forms and payment slips arrive in the next release. Your form and fee for this visa:",
+  arrangeHelp: "Luma arranges this for me",
+  arrangeHelpSub: "Sworn translation and apostille coordination — coming with the Plus plan. Register interest and you'll be first in line.",
+  helpRequested: "Interest registered — we'll contact you when this launches",
+  diyLabel: "I'll handle it myself",
 };
 
 const es: typeof en = {
@@ -66,6 +78,18 @@ const es: typeof en = {
   deleteDoc: "Quitar",
   supervised: "Checklist v2026-07 · mantenida bajo supervisión colegiada",
   backHome: "Volver a luma.legal",
+  nextStep: "Tu siguiente paso",
+  nextStepWhySlow: "Empieza ya con esto — las apostillas y traducciones juradas son lo que más tarda.",
+  nextStepWhyLate: "Déjalo para cerca de la presentación — tiene una ventana de validez corta.",
+  nextStepDone: "Todo subido. Lo revisamos y marcamos cualquier cosa que necesite corrección.",
+  stageGather: "Reúne tus documentos",
+  stageLegalise: "Legaliza y traduce",
+  stageForms: "Formularios y tasas",
+  formsComing: "Los formularios autorrellenados y las tasas llegan en la próxima versión. Tu formulario y tasa para este visado:",
+  arrangeHelp: "Que Luma lo gestione por mí",
+  arrangeHelpSub: "Coordinación de traducción jurada y apostilla — llega con el plan Plus. Registra tu interés y serás de los primeros.",
+  helpRequested: "Interés registrado — te contactaremos cuando se lance",
+  diyLabel: "Lo gestiono yo",
 };
 
 export const appStrings: Record<Locale, typeof en> = { en, es };
