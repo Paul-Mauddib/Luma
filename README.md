@@ -32,9 +32,10 @@ Then vercel.com → Add New Project → import `luma-site` → deploy (zero conf
 The core product (dossier planner + encrypted vault) lives at `/{locale}/app` and needs a Supabase project:
 
 1. Create a project at database.new — **region: EU (Frankfurt)**.
-2. In the SQL editor, run `supabase/schema.sql` (tables, row-level security, private storage bucket).
-3. In Authentication → URL Configuration, set the site URL to your production domain and add `https://YOUR-DOMAIN/en/app` and `/es/app` as redirect URLs.
-4. Copy Settings → API → Project URL + anon key into Vercel env vars (see `.env.example`), then redeploy.
+2. In the SQL editor, run `supabase/schema.sql` (tables + row-level security only).
+3. Set up the private storage bucket and its three policies **via the dashboard UI** — follow `supabase/storage-setup.md`. (The SQL editor cannot create storage policies.)
+4. In Authentication → URL Configuration, set the site URL to your production domain and add `https://YOUR-DOMAIN/en/app` and `/es/app` as redirect URLs.
+5. Copy Settings → API → Project URL + anon key into Vercel env vars (see `.env.example`), then redeploy.
 
 Without the env vars the marketing site works normally and `/app` shows a setup notice.
 

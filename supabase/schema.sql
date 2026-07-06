@@ -1,6 +1,9 @@
--- Luma dossier schema — run once in the Supabase SQL editor (EU project).
--- Everything is protected by row-level security: users can only ever see
--- and touch their own rows and their own storage folder.
+-- Luma dossier schema — PART 1 of 2.
+-- Run this in the Supabase SQL editor. It only touches the public schema,
+-- which the editor is allowed to modify.
+-- PART 2 (storage bucket + policies) is done in the dashboard UI —
+-- see supabase/storage-setup.md. The SQL editor cannot create policies
+-- on storage.objects ("must be owner of table objects").
 
 create table if not exists public.cases (
   id uuid primary key default gen_random_uuid(),
@@ -32,26 +35,3 @@ create policy "own cases" on public.cases
 
 create policy "own documents" on public.documents
   for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
-
--- Private storage bucket; each user may only touch their own folder.
-insert into storage.buckets (id, name, public)
-values ('documents', 'documents', false)
-on conflict (id) do nothing;
-
-create policy "own folder read" on storage.objects
-  for select using (
-    bucket_id = 'documents'
-    and (storage.foldername(name))[1] = auth.uid()::text
-  );
-
-create policy "own folder write" on storage.objects
-  for insert with check (
-    bucket_id = 'documents'
-    and (storage.foldername(name))[1] = auth.uid()::text
-  );
-
-create policy "own folder delete" on storage.objects
-  for delete using (
-    bucket_id = 'documents'
-    and (storage.foldername(name))[1] = auth.uid()::text
-  );
